@@ -92,11 +92,18 @@ from .congress.afa import (
 from .reconciliation import (
     create_reconciled_ssn_for_llc_and_aoc_reform,
 )
+from .states.mi.surtax import (
+    create_mi_surtax_reform,
+)
 from .additional_tax_bracket import (
     create_additional_tax_bracket_reform,
 )
 from .congress.hawley.awra import (
     create_american_worker_rebate_act_reform,
+)
+from .crfb import (
+    create_non_refundable_ss_credit_reform,
+    create_senior_deduction_extension_reform,
 )
 
 from policyengine_core.reforms import Reform
@@ -207,6 +214,12 @@ def create_structural_reforms_from_parameters(parameters, period):
     afa_other_dependent_credit = create_afa_other_dependent_credit_reform(
         parameters, period
     )
+    non_refundable_ss_credit = create_non_refundable_ss_credit_reform(
+        parameters, period
+    )
+    senior_deduction_extension = create_senior_deduction_extension_reform(
+        parameters, period
+    )
 
     reconciled_ssn_for_llc_and_aoc = (
         create_reconciled_ssn_for_llc_and_aoc_reform(parameters, period)
@@ -214,10 +227,11 @@ def create_structural_reforms_from_parameters(parameters, period):
     ctc_additional_bracket = create_ctc_additional_bracket_reform(
         parameters, period
     )
-
     additional_tax_bracket = create_additional_tax_bracket_reform(
         parameters, period
     )
+    mi_surtax = create_mi_surtax_reform(parameters, period)
+
     american_worker_rebate_act = create_american_worker_rebate_act_reform(
         parameters, period
     )
@@ -261,8 +275,11 @@ def create_structural_reforms_from_parameters(parameters, period):
         tax_employer_medicare_tax,
         tax_employer_payroll_tax,
         afa_other_dependent_credit,
+        non_refundable_ss_credit,
+        senior_deduction_extension,
         reconciled_ssn_for_llc_and_aoc,
         ctc_additional_bracket,
+        mi_surtax,
         additional_tax_bracket,
         american_worker_rebate_act,
     ]
