@@ -17,7 +17,16 @@ class aca_ptc(Variable):
             "aca_required_contribution_percentage", period
         )
         takes_up_aca_if_eligible = tax_unit("takes_up_aca_if_eligible", period)
+        # Get minimum monthly premium contribution and convert to yearly
+        min_monthly_contribution = parameters(
+            period
+        ).gov.aca.minimum_monthly_premium_contribution
+        min_yearly_contribution = min_monthly_contribution * MONTHS_IN_YEAR
+        # Calculate required contribution with minimum floor
+        required_contribution = max_(
+            min_yearly_contribution, income * applicable_figure
+        )
         return (
-            max_(0, plan_cost - income * applicable_figure)
+            max_(0, plan_cost - required_contribution)
             * takes_up_aca_if_eligible
         )

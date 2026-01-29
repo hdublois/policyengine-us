@@ -1,0 +1,19 @@
+description: Minimum monthly premium contribution amount for individuals receiving ACA premium tax credits. This establishes a floor on the required contribution amount.
+values:
+  2014-01-01: 0
+  2020-01-01: 0
+  2021-01-01: 0
+  2022-01-01: 0
+  2023-01-01: 0
+  2024-01-01: 0
+  2025-01-01: 0
+  2026-01-01: 0
+metadata:
+  label: Minimum monthly premium contribution for ACA PTC recipients
+  unit: currency-USD
+  period: year
+  economy: false
+  household: false
+  reference:
+    - title: Policy parameter for minimum premium contribution floor
+      href: https://www.law.cornell.edu/uscode/text/26/36B

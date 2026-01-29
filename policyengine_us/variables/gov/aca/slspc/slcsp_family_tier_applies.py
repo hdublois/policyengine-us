@@ -9,5 +9,7 @@ class slcsp_family_tier_applies(Variable):
 
     def formula(tax_unit, period, parameters):
         p = parameters(period).gov.aca
-        state_code = tax_unit.household("state_code", period)
-        return p.family_tier_states[state_code]
+        # Use state_code_str to avoid StateGroup enum validation bug
+        state_code_str = tax_unit.household("state_code_str", period)
+        # Use bracket notation for array indexing instead of getattr
+        return p.family_tier_states[state_code_str]

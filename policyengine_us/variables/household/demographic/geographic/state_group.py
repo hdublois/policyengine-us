@@ -22,8 +22,12 @@ class state_group(Variable):
     def formula(household, period, parameters):
         NON_CONTIGUOUS_STATES = ("AK", "HI", "GU", "PR", "VI")
         state_code = household("state_code", period).decode_to_str()
-        return where(
+        # Map state codes to StateGroup enum names (strings)
+        # Contiguous states -> "CONTIGUOUS_US", non-contiguous -> their state code (which matches enum name)
+        enum_names = np.where(
             np.isin(state_code, NON_CONTIGUOUS_STATES),
-            StateGroup.encode(state_code).decode(),
-            StateGroup.CONTIGUOUS_US,
+            state_code,  # "AK", "HI", etc. - these match StateGroup enum names
+            "CONTIGUOUS_US"  # Contiguous states map to CONTIGUOUS_US enum name
         )
+        # Now encode - all values in enum_names are valid StateGroup enum names
+        return StateGroup.encode(enum_names).decode()

@@ -25,7 +25,11 @@ class tax_unit_medicaid_income_level(Variable):
 
         pregnant_count = add(tax_unit, period, ["current_pregnancies"])
         tax_unit_size = tax_unit("tax_unit_size", period)
-        state_group = tax_unit.household("state_group_str", period)
+        # Use the computed enum `state_group` rather than `state_group_str`.
+        # Some datasets include a raw `state_group_str` input with state codes
+        # (e.g. "CA"), which then fails parameter indexing for `gov.hhs.fpg`
+        # (expects StateGroup values like "CONTIGUOUS_US", "AK", "HI", etc.).
+        state_group = tax_unit.household("state_group", period).decode_to_str()
 
         medicaid_fpg = fpg(
             pregnant_count + tax_unit_size, state_group, period, parameters

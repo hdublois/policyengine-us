@@ -17,5 +17,9 @@ class tax_unit_fpg(Variable):
 
     def formula(tax_unit, period, parameters):
         n = tax_unit("tax_unit_size", period)
-        state_group = tax_unit.household("state_group_str", period)
+        # Use the computed enum `state_group` rather than `state_group_str`.
+        # Some datasets include a raw `state_group_str` input with state codes
+        # (e.g. "CA"), which then fails parameter indexing for `gov.hhs.fpg`
+        # (expects StateGroup values like "CONTIGUOUS_US", "AK", "HI", etc.).
+        state_group = tax_unit.household("state_group", period).decode_to_str()
         return fpg(n, state_group, period, parameters)

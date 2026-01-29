@@ -15,7 +15,13 @@ class tanf_fpg(Variable):
     def formula(spm_unit, period, parameters):
         # We can use tanf_unit_size for more accurate model in the future
         n = spm_unit("spm_unit_size", period.this_year)
-        state_group = spm_unit.household("state_group_str", period.this_year)
+        # Use computed enum `state_group` rather than `state_group_str`.
+        # Some datasets include a raw `state_group_str` input with state codes
+        # (e.g. "CA"), which then fails parameter indexing for `gov.hhs.fpg`
+        # (expects StateGroup values like "CONTIGUOUS_US", "AK", "HI", etc.).
+        state_group = (
+            spm_unit.household("state_group", period.this_year).decode_to_str()
+        )
         year = period.start.year
         month = period.start.month
         if month >= 10:
