@@ -3,4 +3,4 @@ dependencies:
   - python=3.10
   - hdf5
   - pip:
-    - -e
+    - -e .
