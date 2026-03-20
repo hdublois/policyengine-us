@@ -13,7 +13,12 @@ class labor_supply_behavioral_response(Variable):
         simulation = person.simulation
         if simulation.baseline is None:
             return 0  # No reform, no impact
-        if p.elasticities.income == 0 and p.elasticities.substitution.all == 0:
+        # `elasticities.income` is a parameter group (base/all/age_multiplier), so
+        # compare against the global override (`all`) values.
+        if (
+            p.elasticities.income.all == 0
+            and p.elasticities.substitution.all == 0
+        ):
             return 0
 
         measurement_branch = simulation.get_branch(
